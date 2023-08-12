@@ -13,17 +13,65 @@ The UPC technique ensures that every color permutation is unique, avoiding redun
 Example: 
 Given a graph with four nodes, the colorings "1 1 2 3", "2 2 1 3", and "3 3 2 1" are essentially the same. UPC ensures that only one of these (e.g., "1 1 2 3") is considered.
 
+
+The algorithm inherently ensures a unique sequence of colors for any valid graph coloring. This property, known as Unique Permutation Coloring (UPC), is achieved due to the sequential and iterative nature of the algorithm:
+
+- **Sequential Coloring**: The algorithm colors vertices in a sequential manner, always processing the earlier vertices before the later ones.
+- **Iterative Color Assignment**: For any given vertex, the algorithm iteratively assigns colors, always starting from the lowest available color. This ensures that if a color is available for a vertex, it gets assigned before considering the next color.
+- **Consistent Color Sequence**: The recursive design of the algorithm ensures consistent color sequences. Once a vertex is colored, the algorithm doesn't alter its color unless there's a conflict with subsequent vertices.
+
+Combined, these behaviors ensure that the algorithm naturally adheres to the UPC property, avoiding redundant evaluations of color sequences that represent the same valid coloring of the graph.
+
 ### 2. Biggest Possible Clique (BPC)
 
 The BPC technique focuses on finding the biggest possible clique in the graph to set an upper bound. This helps in providing a more focused search space and allows the algorithm to bypass many non-viable solutions.
+
+The idea behind BPC is rooted in graph theory: A graph that has a clique (a subset of vertices in which every two distinct vertices are adjacent) of size \(k\) requires at least \(k\) colors. Thus, by determining the size of the biggest possible clique in the graph, we can set a minimum bound for the number of colors required.
+
+
+To determine an approximation of the biggest possible clique, we take into account the total number of edges in the graph. The rationale behind this is that a clique of size \( k \) will have exactly \( \binom{k}{2} \) edges. Therefore, if a graph has \( E \) edges, it can potentially contain a clique of size \( k \) where \( \binom{k}{2} \leq E \).
+
+#### Formula:
+
+Given a graph \( G \) with \( E \) edges, the maximum possible size \( k \) of a clique in \( G \) can be derived from the inequality:
+
+\[ \binom{k}{2} \leq E \]
+
+Where \( \binom{k}{2} \) represents the combination formula, which is equal to \( \frac{k(k-1)}{2} \).
+
+#### Implication:
+
+While this estimation doesn't guarantee the existence of such a clique in the graph, it provides a helpful heuristic for the chromatic number's lower bound. This is because, as mentioned earlier, a clique inherently demands that all its vertices be differently colored. Thus, by estimating the BPC, we set an initial lower threshold for the number of colors we'll need.
+
+### How BPC Works in the Algorithm:
+
+1. **Initialization**: Before the coloring process begins, the algorithm attempts to determine the size of the biggest possible clique in the graph. This is typically achieved using heuristic or approximation methods, as finding the maximum clique in a graph is an NP-hard problem in itself.
+   
+2. **Setting Color Lower Bound**: Once the size of the BPC is determined, this value serves as a lower bound for the number of colors. In other words, the algorithm doesn't need to attempt solutions with fewer colors than the size of the BPC, as they're guaranteed to be invalid.
+   
+3. **Synergy with Other Techniques**: When used in combination with other techniques, such as Neighbour Count Constraint (NCC), the BPC heuristic further refines the search space. For instance, if BPC determines that at least 4 colors are required and NCC for a certain vertex indicates a minimum of 5 colors, then the algorithm can start its search with 5 colors.
+
+### Benefits:
+
+- **Reduction in Search Space**: By providing a concrete lower bound on the number of colors, the BPC technique effectively reduces the number of invalid color configurations the algorithm needs to evaluate.
+  
+- **Efficiency**: Especially in graphs with large cliques, BPC can significantly speed up the coloring process by avoiding futile attempts to color the graph with too few colors.
 
 ### 3. Neighbour Count Constraint (NCC)
 
 With the NCC technique, a node's maximum possible color is restricted by the number of its neighbours. If a node has three neighbours, then it can have a maximum color of four. This reduces the number of potential colors the algorithm has to check for each node.
 
-## Synergy of Techniques
+### 4. Synergy of BPC and NCC 
 
-The real power of this algorithm comes from the synergy of the techniques used. While each individual technique helps reduce the solution space, their combination amplifies the effect, often eliminating vast swathes of non-viable solutions early on. This interplay, especially between BPC and NCC, provides a powerful constraint mechanism that makes the algorithm far more efficient than traditional methods.
+The interplay between BPC and NCC can be best understood with a simple example:
+
+- **Scenario 1** (Neighbors count > BPC): 
+  Let's say the BPC of a graph is 4, implying that we need at least 4 colors for a valid coloring. Now, consider a node with 6 neighbors. For this node, due to the NCC, we would try coloring it with at most 7 colors (6 + 1). Thus, even though the BPC is 4, the NCC guides the algorithm to explore colors beyond the BPC for this specific node.
+
+- **Scenario 2** (Neighbors count < BPC): 
+  If the BPC is 6 and a specific node has just 3 neighbors, the algorithm will start with a base of 6 colors (from the BPC). However, for this particular node, NCC ensures that we only need to consider 4 of those colors (3 + 1).
+
+This dynamic adaptation based on global (BPC) and local (NCC) constraints enhances the algorithm's efficiency, avoiding unnecessary explorations and thus optimizing the search space.
 
 ## Graph Representation
 
