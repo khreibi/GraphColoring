@@ -29,7 +29,7 @@ The BPC technique focuses on finding the biggest possible clique in the graph to
 The idea behind BPC is rooted in graph theory: A graph that has a clique (a subset of vertices in which every two distinct vertices are adjacent) of size \(k\) requires at least \(k\) colors. Thus, by determining the size of the biggest possible clique in the graph, we can set a minimum bound for the number of colors required.
 
 
-To determine an approximation of the biggest possible clique, we take into account the total number of edges in the graph. The rationale behind this is that a clique of size \( k \) will have exactly \( \binom{k}{2} \) edges. Therefore, if a graph has \( E \) edges, it can potentially contain a clique of size \( k \) where \( \binom{k}{2} \leq E \).
+To determine an approximation of the biggest possible clique, we take into account the total number of edges in the graph. The rationale behind this is that a clique of size \( k \) will have exactly ![Alt text describing the image](./binom.gif) edges. Therefore, if a graph has \( E \) edges, it can potentially contain a clique of size \( k \) where ![Alt text describing the image](./leq.gif).
 
 #### Formula:
 
@@ -37,7 +37,7 @@ Given a graph \( G \) with \( E \) edges, the maximum possible size \( k \) of a
 
 \[ \binom{k}{2} \leq E \]
 
-Where \( \binom{k}{2} \) represents the combination formula, which is equal to \( \frac{k(k-1)}{2} \).
+Where \( \binom{k}{2} \) represents the combination formula, which is equal to ![Alt text describing the image](./frac.gif).
 
 #### Implication:
 
