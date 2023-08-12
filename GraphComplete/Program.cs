@@ -15,7 +15,7 @@ do
 {
     i++;
     var p = rand.NextDouble();
-    matrix = MatrixHelper.GenerateRandomConnectivityMatrix(1000, p);
+    matrix = MatrixHelper.GenerateRandomConnectivityMatrix(10000, p);
     //MatrixHelper.PrintMatrix(matrix);
 
     Console.WriteLine("==============================================================================================================");
