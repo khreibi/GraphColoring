@@ -102,6 +102,9 @@ Below is a table summarizing the results:
 
 3. **Comparison with Existing Solutions**: When comparing our results to traditional algorithms, the performance of this algorithm showcases notable efficiency, especially for larger graphs.
 
+### Limits:
+
+While the developed algorithm has demonstrated impressive efficiency by solving graphs with up to 12,000 nodes in less than 2 minutes, we encountered a different challenge when scaling beyond this point. Rather than being constrained by computational time, we ran into a stack overflow issue.
 
 ### Conclusion:
 
