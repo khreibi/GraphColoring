@@ -92,7 +92,7 @@ Below is a table summarizing the results:
 | 1000  | 10,000        | 500,500          | -             |
 | 2000  | 1,000         | 1,275,992        | 2.55x         |
 | 4000  | 500           | 4,719,367        | 3.70x         |
-| (Additional results can be added here...) |
+
 
 ### Observations:
 
